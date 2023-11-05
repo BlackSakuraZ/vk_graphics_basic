@@ -12,8 +12,8 @@ layout(push_constant) uniform params_t
 {
     mat4 mProjView;
     mat4 mModel;
+    float time;
 } params;
-
 
 layout (location = 0 ) out VS_OUT
 {
@@ -25,12 +25,18 @@ layout (location = 0 ) out VS_OUT
 } vOut;
 
 out gl_PerVertex { vec4 gl_Position; };
+
 void main(void)
 {
     const vec4 wNorm = vec4(DecodeNormal(floatBitsToInt(vPosNorm.w)),         0.0f);
     const vec4 wTang = vec4(DecodeNormal(floatBitsToInt(vTexCoordAndTang.z)), 0.0f);
 
+    float time = params.time;
     vOut.wPos     = (params.mModel * vec4(vPosNorm.xyz, 1.0f)).xyz;
+    vOut.wPos.x    += (sin(time) * 0.5 + cos(time * 0.2) * 0.1);
+    vOut.wPos.y    += sin(time) * 0.9;
+    vOut.wPos.z    += cos(time) * 0.3;
+    vOut.wPos     = vOut.wPos.zyx;
     vOut.wNorm    = normalize(mat3(transpose(inverse(params.mModel))) * wNorm.xyz);
     vOut.wTangent = normalize(mat3(transpose(inverse(params.mModel))) * wTang.xyz);
     vOut.texCoord = vTexCoordAndTang.xy;
