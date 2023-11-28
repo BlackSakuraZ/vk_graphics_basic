@@ -15,7 +15,7 @@ layout (location = 0) out VS_IN
     vec3 wTangent;
     vec2 texCoord;
 
-} vIn[3];
+} vIn[];
 
 layout (location = 0) out VS_OUT
 {
