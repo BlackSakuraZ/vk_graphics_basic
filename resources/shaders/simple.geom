@@ -8,7 +8,7 @@ layout(push_constant) uniform params_t
     mat4 mModel;
 } params;
 
-layout (location = 0) out VS_IN
+layout (location = 0) in VS_IN
 {
     vec3 wPos;
     vec3 wNorm;
@@ -31,7 +31,7 @@ void emitVertex(vec3 norm, int i) {
     vOut.wNorm = vIn[i].wNorm;
     vOut.wTangent = vIn[i].wTangent;
     vOut.texCoord = vIn[i].texCoord;
-    gl_Position = params.mProjView * vec4(vIn[i].wPos + norm * 0.02, 1.0);
+    gl_Position = params.mProjView * vec4(vOut.wPos + norm * 0.1, 1.0);
     EmitVertex();
 }
 
